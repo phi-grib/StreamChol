@@ -6,8 +6,6 @@ ADD app_streamchol.py .
 
 ADD requeriments.txt .
 
-ADD juntas.png .
-
 ADD chembl_data_bcrp.sdf .
 
 ADD chembl_data_bsep.sdf .
