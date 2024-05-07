@@ -2,7 +2,7 @@ FROM python:3.8
 
 EXPOSE 8501
 
-ADD prueba_facil_prueba_facil_option_menu.py .
+ADD app_streamchol.py .
 
 ADD requeriments.txt .
 
@@ -40,4 +40,4 @@ RUN pip install -r requeriments.txt
 
 
 ENTRYPOINT ["streamlit", "run","--server.fileWatcherType", "None"]
-CMD ["prueba_facil_prueba_facil_option_menu.py"]
+CMD ["app_streamchol.py"]
