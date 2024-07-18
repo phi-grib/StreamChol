@@ -1436,7 +1436,7 @@ elif selected == 'Prediction':
 
                 metrics_df = pd.DataFrame({
                 'Metric': ['Accuracy','Sensitivity', 'Specificity', 'MCC', 'ROC-AUC'],
-                'Score': [acc, sens, spe, acc, roc]
+                'Score': [acc, sens, spe, mcc, roc]
             })
                 st.markdown(f'<div style="text-align: justify; fontSize: 23px; color: #696969;"><strong>Training series metrics</strong> </div>', unsafe_allow_html=True)
                 # Create a bar plot using Matplotlib
@@ -1787,8 +1787,8 @@ elif selected == 'Prediction':
                 acc_test=accuracy_score(comb.Activity,preds)
                 roc_test=roc_auc_score(comb.Activity,preds)
 
-                train_values = [acc_train, sens_train, spe_train, roc_train, mcc_train]
-                test_values = [acc_test, sens_test, spe_test, roc_test, mcc_test]
+                train_values = [acc_train, sens_train, spe_train, mcc_train, roc_train]
+                test_values = [acc_test, sens_test, spe_test, mcc_test, roc_test]
 
                 # Ancho de las barras
                 bar_width = 0.35
