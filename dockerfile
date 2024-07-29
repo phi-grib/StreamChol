@@ -8,21 +8,21 @@ ADD requeriments.txt .
 
 ADD juntas.png .
 
-ADD chembl_data_bcrp.sdf .
+ADD model_bcrp.pkl .
 
-ADD chembl_data_bsep.sdf .
+ADD model_bsep.pkl .
 
-ADD chembl_data_mrp2.sdf .
+ADD model_mrp2.pkl .
 
-ADD chembl_data_mrp3.sdf .
+ADD model_mrp3.pkl .
 
-ADD chembl_data_mrp4.sdf .
+ADD model_mrp4.pkl .
 
-ADD chembl_data_OATP1b1.sdf .
+ADD model_oat1.pkl .
 
-ADD chembl_data_OATP1b3.sdf .
+ADD model_oat2.pkl .
 
-ADD chembl_data_pgp.sdf .
+ADD model_pgp.pkl .
 
 ADD final_predictions_app.csv .
 

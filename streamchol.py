@@ -36,6 +36,7 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve, matthews
 import time
 from streamlit_option_menu import option_menu
 import io
+import pickle
 # from IPython.display import SVG
 from rdkit.Chem import rdDepictor
 from rdkit.Chem.Draw import rdMolDraw2D
@@ -203,6 +204,12 @@ def report(y_true, y_pred):
 
     # Display the metrics using st.markdown
     st.markdown(metrics_text, unsafe_allow_html=True)
+
+def load(nombre=''):
+    
+    with open(f"model_{nombre}.pkl", "rb") as f:
+        opciones = pickle.load(f)
+    return opciones
 
 def autolabel(bars):
     for bar in bars:
@@ -1167,67 +1174,83 @@ elif selected == 'Prediction':
 
             time.sleep(5)
 
-            df_bcrp=PandasTools.LoadSDF("chembl_data_bcrp.sdf")
-            df_bcrp['inchi']=[Chem.MolToInchi(m) for m in df_bcrp.ROMol]
-            df_bcrp=df_bcrp[df_bcrp.standard_type=='IC50']
-            df_bcrp['pchembl_value']=df_bcrp['pchembl_value'].astype('float')
-            df_mrp2=PandasTools.LoadSDF("chembl_data_mrp2.sdf")
-            df_mrp2['inchi']=[Chem.MolToInchi(m) for m in df_mrp2.ROMol]
-            df_mrp2=df_mrp2[df_mrp2.standard_type=='IC50']
-            df_mrp2['pchembl_value']=df_mrp2['pchembl_value'].astype('float')
-            df_mrp3=PandasTools.LoadSDF("chembl_data_mrp3.sdf")
-            df_mrp3['inchi']=[Chem.MolToInchi(m) for m in df_mrp3.ROMol]
-            df_mrp3=df_mrp3[df_mrp3.standard_type=='IC50']
-            df_mrp3['pchembl_value']=df_mrp3['pchembl_value'].astype('float')
-            df_mrp4=PandasTools.LoadSDF("chembl_data_mrp4.sdf")
-            df_mrp4['inchi']=[Chem.MolToInchi(m) for m in df_mrp4.ROMol]
-            df_mrp4=df_mrp4[df_mrp4.standard_type=='IC50']
-            df_mrp4['pchembl_value']=df_mrp4['pchembl_value'].astype('float')
-            df_oat1=PandasTools.LoadSDF("chembl_data_OATP1b1.sdf")
-            df_oat1['inchi']=[Chem.MolToInchi(m) for m in df_oat1.ROMol]
-            df_oat1=df_oat1[df_oat1.standard_type=='IC50']
-            df_oat1['pchembl_value']=df_oat1['pchembl_value'].astype('float')
-            df_oat2=PandasTools.LoadSDF("chembl_data_OATP1b3.sdf")
-            df_oat2['inchi']=[Chem.MolToInchi(m) for m in df_oat2.ROMol]
-            df_oat2=df_oat2[df_oat2.standard_type=='IC50']
-            df_oat2['pchembl_value']=df_oat2['pchembl_value'].astype('float')
-            df_bsep=PandasTools.LoadSDF("chembl_data_bsep.sdf")
-            df_bsep['inchi']=[Chem.MolToInchi(m) for m in df_bsep.ROMol]
-            df_bsep=df_bsep[df_bsep.standard_type=='IC50']
-            df_bsep['pchembl_value']=df_bsep['pchembl_value'].astype('float')
-            df_pgp=PandasTools.LoadSDF("chembl_data_pgp.sdf")
-            df_pgp['inchi']=[Chem.MolToInchi(m) for m in df_pgp.ROMol]
-            df_pgp=df_pgp[df_pgp.standard_type=='IC50']
-            df_pgp['pchembl_value']=df_pgp['pchembl_value'].astype('float')
+            # df_bcrp=PandasTools.LoadSDF("chembl_data_bcrp.sdf")
+            # df_bcrp['inchi']=[Chem.MolToInchi(m) for m in df_bcrp.ROMol]
+            # df_bcrp=df_bcrp[df_bcrp.standard_type=='IC50']
+            # df_bcrp['pchembl_value']=df_bcrp['pchembl_value'].astype('float')
+            # df_mrp2=PandasTools.LoadSDF("chembl_data_mrp2.sdf")
+            # df_mrp2['inchi']=[Chem.MolToInchi(m) for m in df_mrp2.ROMol]
+            # df_mrp2=df_mrp2[df_mrp2.standard_type=='IC50']
+            # df_mrp2['pchembl_value']=df_mrp2['pchembl_value'].astype('float')
+            # df_mrp3=PandasTools.LoadSDF("chembl_data_mrp3.sdf")
+            # df_mrp3['inchi']=[Chem.MolToInchi(m) for m in df_mrp3.ROMol]
+            # df_mrp3=df_mrp3[df_mrp3.standard_type=='IC50']
+            # df_mrp3['pchembl_value']=df_mrp3['pchembl_value'].astype('float')
+            # df_mrp4=PandasTools.LoadSDF("chembl_data_mrp4.sdf")
+            # df_mrp4['inchi']=[Chem.MolToInchi(m) for m in df_mrp4.ROMol]
+            # df_mrp4=df_mrp4[df_mrp4.standard_type=='IC50']
+            # df_mrp4['pchembl_value']=df_mrp4['pchembl_value'].astype('float')
+            # df_oat1=PandasTools.LoadSDF("chembl_data_OATP1b1.sdf")
+            # df_oat1['inchi']=[Chem.MolToInchi(m) for m in df_oat1.ROMol]
+            # df_oat1=df_oat1[df_oat1.standard_type=='IC50']
+            # df_oat1['pchembl_value']=df_oat1['pchembl_value'].astype('float')
+            # df_oat2=PandasTools.LoadSDF("chembl_data_OATP1b3.sdf")
+            # df_oat2['inchi']=[Chem.MolToInchi(m) for m in df_oat2.ROMol]
+            # df_oat2=df_oat2[df_oat2.standard_type=='IC50']
+            # df_oat2['pchembl_value']=df_oat2['pchembl_value'].astype('float')
+            # df_bsep=PandasTools.LoadSDF("chembl_data_bsep.sdf")
+            # df_bsep['inchi']=[Chem.MolToInchi(m) for m in df_bsep.ROMol]
+            # df_bsep=df_bsep[df_bsep.standard_type=='IC50']
+            # df_bsep['pchembl_value']=df_bsep['pchembl_value'].astype('float')
+            # df_pgp=PandasTools.LoadSDF("chembl_data_pgp.sdf")
+            # df_pgp['inchi']=[Chem.MolToInchi(m) for m in df_pgp.ROMol]
+            # df_pgp=df_pgp[df_pgp.standard_type=='IC50']
+            # df_pgp['pchembl_value']=df_pgp['pchembl_value'].astype('float')
 
             training_series=pd.read_csv('final_predictions_app.csv')
 
-            X_bcrp,y_bcrp=fingerprints_inputs(df_bcrp)
-            X_mrp2,y_mrp2=fingerprints_inputs(df_mrp2)
-            X_mrp3,y_mrp3=fingerprints_inputs(df_mrp3)
-            X_mrp4,y_mrp4=fingerprints_inputs(df_mrp4)
-            X_oat1,y_oat1=fingerprints_inputs(df_oat1)
-            X_oat2,y_oat2=fingerprints_inputs(df_oat2)
-            X_bsep,y_bsep=fingerprints_inputs(df_bsep)
-            X_pgp,y_pgp=fingerprints_inputs(df_pgp)
+            # X_bcrp,y_bcrp=fingerprints_inputs(df_bcrp)
+            # X_mrp2,y_mrp2=fingerprints_inputs(df_mrp2)
+            # X_mrp3,y_mrp3=fingerprints_inputs(df_mrp3)
+            # X_mrp4,y_mrp4=fingerprints_inputs(df_mrp4)
+            # X_oat1,y_oat1=fingerprints_inputs(df_oat1)
+            # X_oat2,y_oat2=fingerprints_inputs(df_oat2)
+            # X_bsep,y_bsep=fingerprints_inputs(df_bsep)
+            # X_pgp,y_pgp=fingerprints_inputs(df_pgp)
             
             random.seed(46)
             
-            model_bcrp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_bcrp,y_bcrp)
+            model_bcrp=load('bcrp')["modelo"]
+
+            model_mrp2=load('mrp2')["modelo"]
+
+            model_mrp3=load('mrp3')["modelo"]
+
+            model_mrp4=load('mrp4')["modelo"]
+
+            model_oat1=load('oat1')["modelo"]
+
+            model_oat2=load('oat2')["modelo"]
+
+            model_bsep=load('bsep')["modelo"]
+
+            model_pgp=load('pgp')["modelo"]
             
-            model_mrp2=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 16},random_state=46).fit(X_mrp2,y_mrp2)
+            # model_bcrp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_bcrp,y_bcrp)
             
-            model_mrp3=SVR(**{'C': 1, 'gamma': 0.001, 'kernel': 'linear'}).fit(X_mrp3,y_mrp3)
+            # model_mrp2=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 16},random_state=46).fit(X_mrp2,y_mrp2)
             
-            model_mrp4=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 80},random_state=46).fit(X_mrp4,y_mrp4)
+            # model_mrp3=SVR(**{'C': 1, 'gamma': 0.001, 'kernel': 'linear'}).fit(X_mrp3,y_mrp3)
             
-            model_oat1=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 5, 'n_estimators': 16},random_state=46).fit(X_oat1,y_oat1)
+            # model_mrp4=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 80},random_state=46).fit(X_mrp4,y_mrp4)
             
-            model_oat2=SVR(**{'C': 1, 'gamma': 0.0001, 'kernel': 'rbf'}).fit(X_oat2,y_oat2)
+            # model_oat1=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 5, 'n_estimators': 16},random_state=46).fit(X_oat1,y_oat1)
             
-            model_bsep=XGBRegressor(**{'colsample_bytree': 1, 'max_depth': 2, 'min_child_weight': 2, 'n_estimators': 16}).fit(X_bsep,y_bsep)
+            # model_oat2=SVR(**{'C': 1, 'gamma': 0.0001, 'kernel': 'rbf'}).fit(X_oat2,y_oat2)
             
-            model_pgp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_pgp,y_pgp)
+            # model_bsep=XGBRegressor(**{'colsample_bytree': 1, 'max_depth': 2, 'min_child_weight': 2, 'n_estimators': 16}).fit(X_bsep,y_bsep)
+            
+            # model_pgp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_pgp,y_pgp)
 
 
             if 'df_result' in st.session_state:
