@@ -56,22 +56,7 @@ from rpy2.robjects.conversion import localconverter
 
 pandas2ri.activate()
 
-# os.environ['R_HOME']="C:\R"
-
-
-# st.image('juntas.png', use_column_width=False,width=300)
-
 st.set_page_config(page_title="StreamChol")
-
-# light = '''
-# <style>
-#     .stApp {
-#     background-color: #ffcccc;
-#     }
-# </style>
-# '''
-
-# st.markdown(light, unsafe_allow_html=True)
 
 image_path = "drawi3.svg"
 image = open(image_path, "rb").read()
@@ -92,28 +77,6 @@ background: rgba(0,0,0,0);
 }}
 </style>
 """
-
-#isplay the application content
-st.markdown(page_bg_img, unsafe_allow_html=True)
-
-# page_element="""
-# <style>
-# [data-testid="stAppViewContainer"]{
-#   background-image: url("chula.jpg");
-#   background-size: cover;
-# }
-# [data-testid="stHeader"]{
-#   background-color: rgba(0,0,0,0);
-# }
-# </style>
-# """
-# st.markdown(page_element, unsafe_allow_html=True)
-# left_container = """
-# <div style="float: left; margin-right: 1rem; margin-left: -275px; margin-top: -75px;">
-#     <img src="https://raw.githubusercontent.com/PARODBE/streamlit_figures/main/juntas.png" alt="Juntas" width="400">
-# </div>
-# """
-# st.markdown(left_container, unsafe_allow_html=True)
 
 st.markdown("<h1 style='text-align: center; fontSize: 100px; font-style: italic; color: grey;'>StreamChol</h1>", unsafe_allow_html=True)
 
@@ -153,7 +116,7 @@ selected = option_menu(None, ["Home", "Tutorial", "Data", "PK analysis", "Predic
         "nav-link-selected": {"background-color": "#2E6E88"},
         })
 
-# Función para convertir una estructura química en un SVG
+
 @st.cache_data
 def smi_to_png(smi: str) -> str:
     """Returns molecular image as data URI."""
@@ -706,23 +669,11 @@ elif selected == 'PK analysis':
                 df_nuevo_def3['fake_name']=[f'A-{i}' for i in range(1)]
 
 
-                # Convertir el DataFrame de pandas a DataFrame de R
+                # Convert DataFrame from pandas to a R DataFrame
                 df_r = py2rpy_pandasdataframe(df_nuevo_def3)
 
-                # Pasar el DataFrame de R a R
                 ro.globalenv['df_r'] = df_r
                 
-                # df_r = pandas2ri.py2rpy(df_nuevo_def3)
-                # r_from_pd_df = pandas2ri.py2rpy  # Pasamos los valores del DataFrame en lugar del DataFrame completo
-                # # Asigna el objeto R a una variable en R llamada "df_r"
-                # ro.r.assign("df_r", r_from_pd_df)
-
-
-
-                # Definir la variable a en R
-                # r.assign('dai_dose', 1)
-                # r.assign('dose_per_day', 1)
-                # r.assign('day', 10)
                 with localconverter(default_converter) as cv:
                     dai=robjects.vectors.IntVector([dai_dose])
                     dose_per=robjects.vectors.IntVector([dose_per_day])
@@ -785,20 +736,17 @@ elif selected == 'PK analysis':
                                 DF_graph2 <- data.frame(dose = doses, Css = answer_css$Css)
                               
                                 ''')
-                
-                # with localconverter(default_converter) as cv:
-                #     css = robjects.r['css']
 
                 with localconverter(default_converter + pandas2ri.converter) as cv:
-                    # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                    
                     dm_tks = robjects.conversion.rpy2py(robjects.r['tks'])
 
                 with localconverter(default_converter + pandas2ri.converter) as cv:
-                    # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                    
                     dm_listing = robjects.conversion.rpy2py(robjects.r['plot.data'])
 
                 with localconverter(default_converter + pandas2ri.converter) as cv:
-                    # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                    
                     df_graph3 = robjects.conversion.rpy2py(robjects.r['DF_graph2'])
                 
                 st.session_state["dm_tks"] = dm_tks
@@ -833,13 +781,10 @@ elif selected == 'PK analysis':
                 if on:
                     st.markdown('## <span style="color:#696969">Showing some TK parameters</span> ', unsafe_allow_html=True)
                     
-                    # Definir los nombres de los parámetros
                     parameters = ['AUC', 'Peak','Mean']
                     
-                    # Obtener los valores de los parámetros
                     values = dm_tks.values[0]
                     
-                    # Mostrar los parámetros y sus valores
                     for parameter, value in zip(parameters, values):
                         st.markdown(f"<p style='font-size: 20px; color: #696969;'>- <strong>{parameter}:</strong> {value}</p>", unsafe_allow_html=True)
 
@@ -869,18 +814,11 @@ elif selected == 'PK analysis':
                 df_nuevo_def3['DTXSID_fake']=[f'DTXSID-{i}' for i in range(df_nuevo_def3.shape[0])]
                 df_nuevo_def3['fake_name']=[f'A-{i}' for i in range(df_nuevo_def3.shape[0])]
 
-                # Convertir el DataFrame de pandas a DataFrame de R
                 df_r = py2rpy_pandasdataframe(df_nuevo_def3)
 
                 # Pasar el DataFrame de R a R
                 ro.globalenv['df_r'] = df_r
 
-
-
-                # Definir la variable a en R
-                # r.assign('dai_dose', 1)
-                # r.assign('dose_per_day', 1)
-                # r.assign('day', 10)
                 with localconverter(default_converter) as cv:
                     dai=robjects.vectors.IntVector([dai_dose])
                     dose_per=robjects.vectors.IntVector([dose_per_day])
@@ -954,15 +892,15 @@ elif selected == 'PK analysis':
                         ''')
                     
                     with localconverter(default_converter + pandas2ri.converter) as cv:
-                        # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                        
                         tkstats.append(robjects.conversion.rpy2py(robjects.r['tks']))
 
                     with localconverter(default_converter + pandas2ri.converter) as cv:
-                        # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                        
                         df_graph1.append(robjects.conversion.rpy2py(robjects.r['plot.data']))
 
                     with localconverter(default_converter + pandas2ri.converter) as cv:
-                        # Aquí deberías tener el código para obtener `dm_listing` de `plot.data`
+                        
                         df_graph2.append(robjects.conversion.rpy2py(robjects.r['DF_graph2']))
 
                 st.session_state["tkstats"] = tkstats
@@ -1066,17 +1004,6 @@ elif selected == 'Prediction':
     </style>
     """, unsafe_allow_html=True)
           
-#     st.markdown(
-#     """
-#     <style>
-#     /* Estilos para el tamaño de la fuente del campo de entrada numérico */
-#     .st-emotion-cache-kskxxl input {
-#         font-size: 20px;color: #696969; /* Grey color */
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
     k_met = st.number_input('K (factor for correcting in vivo doses)',value=4.696969696969697, key="pk5")
     # Definir las opciones disponibles y las opciones seleccionadas por defecto
     options = ['BCRP', 'MRP2', 'MRP3', 'MRP4','OATP1B1','OATP1B3','BSEP','PGP']
@@ -1130,22 +1057,6 @@ elif selected == 'Prediction':
 
     logical = st.radio("Choose an option", ('OR','Majority','AND'),captions=['Cholestasis = any of the in vivo doses of at least one transporter < max dose','Cholestasis = The majority of transporters with in vivo doses < max dose','Cholestasis = All transporters with in vivo doses < max dose'])
     
-    
-#     # st.markdown("<div style='height: 0px'></div>", unsafe_allow_html=True)
-#     if 'df_uploaded' in st.session_state:
-#         df_uploaded = st.session_state['df_uploaded']
-#         st.markdown(
-#     """
-#     <style>
-#     /* Estilos para aumentar el tamaño de fuente del texto */
-#     .st-emotion-cache-1vbkxwb.e1nzilvr5 p {
-#         font-size: 20px; /* Increase font size to 24px */
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
-#         on_met = st.toggle('Tune', help='Grid search of the best hyperparameters. If you active this option the training process takes a long time.')
 
     st.markdown(
     """
@@ -1174,49 +1085,7 @@ elif selected == 'Prediction':
 
             time.sleep(5)
 
-            # df_bcrp=PandasTools.LoadSDF("chembl_data_bcrp.sdf")
-            # df_bcrp['inchi']=[Chem.MolToInchi(m) for m in df_bcrp.ROMol]
-            # df_bcrp=df_bcrp[df_bcrp.standard_type=='IC50']
-            # df_bcrp['pchembl_value']=df_bcrp['pchembl_value'].astype('float')
-            # df_mrp2=PandasTools.LoadSDF("chembl_data_mrp2.sdf")
-            # df_mrp2['inchi']=[Chem.MolToInchi(m) for m in df_mrp2.ROMol]
-            # df_mrp2=df_mrp2[df_mrp2.standard_type=='IC50']
-            # df_mrp2['pchembl_value']=df_mrp2['pchembl_value'].astype('float')
-            # df_mrp3=PandasTools.LoadSDF("chembl_data_mrp3.sdf")
-            # df_mrp3['inchi']=[Chem.MolToInchi(m) for m in df_mrp3.ROMol]
-            # df_mrp3=df_mrp3[df_mrp3.standard_type=='IC50']
-            # df_mrp3['pchembl_value']=df_mrp3['pchembl_value'].astype('float')
-            # df_mrp4=PandasTools.LoadSDF("chembl_data_mrp4.sdf")
-            # df_mrp4['inchi']=[Chem.MolToInchi(m) for m in df_mrp4.ROMol]
-            # df_mrp4=df_mrp4[df_mrp4.standard_type=='IC50']
-            # df_mrp4['pchembl_value']=df_mrp4['pchembl_value'].astype('float')
-            # df_oat1=PandasTools.LoadSDF("chembl_data_OATP1b1.sdf")
-            # df_oat1['inchi']=[Chem.MolToInchi(m) for m in df_oat1.ROMol]
-            # df_oat1=df_oat1[df_oat1.standard_type=='IC50']
-            # df_oat1['pchembl_value']=df_oat1['pchembl_value'].astype('float')
-            # df_oat2=PandasTools.LoadSDF("chembl_data_OATP1b3.sdf")
-            # df_oat2['inchi']=[Chem.MolToInchi(m) for m in df_oat2.ROMol]
-            # df_oat2=df_oat2[df_oat2.standard_type=='IC50']
-            # df_oat2['pchembl_value']=df_oat2['pchembl_value'].astype('float')
-            # df_bsep=PandasTools.LoadSDF("chembl_data_bsep.sdf")
-            # df_bsep['inchi']=[Chem.MolToInchi(m) for m in df_bsep.ROMol]
-            # df_bsep=df_bsep[df_bsep.standard_type=='IC50']
-            # df_bsep['pchembl_value']=df_bsep['pchembl_value'].astype('float')
-            # df_pgp=PandasTools.LoadSDF("chembl_data_pgp.sdf")
-            # df_pgp['inchi']=[Chem.MolToInchi(m) for m in df_pgp.ROMol]
-            # df_pgp=df_pgp[df_pgp.standard_type=='IC50']
-            # df_pgp['pchembl_value']=df_pgp['pchembl_value'].astype('float')
-
             training_series=pd.read_csv('final_predictions_app.csv')
-
-            # X_bcrp,y_bcrp=fingerprints_inputs(df_bcrp)
-            # X_mrp2,y_mrp2=fingerprints_inputs(df_mrp2)
-            # X_mrp3,y_mrp3=fingerprints_inputs(df_mrp3)
-            # X_mrp4,y_mrp4=fingerprints_inputs(df_mrp4)
-            # X_oat1,y_oat1=fingerprints_inputs(df_oat1)
-            # X_oat2,y_oat2=fingerprints_inputs(df_oat2)
-            # X_bsep,y_bsep=fingerprints_inputs(df_bsep)
-            # X_pgp,y_pgp=fingerprints_inputs(df_pgp)
             
             random.seed(46)
             
@@ -1235,23 +1104,6 @@ elif selected == 'Prediction':
             model_bsep=load('bsep')["modelo"]
 
             model_pgp=load('pgp')["modelo"]
-            
-            # model_bcrp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_bcrp,y_bcrp)
-            
-            # model_mrp2=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 16},random_state=46).fit(X_mrp2,y_mrp2)
-            
-            # model_mrp3=SVR(**{'C': 1, 'gamma': 0.001, 'kernel': 'linear'}).fit(X_mrp3,y_mrp3)
-            
-            # model_mrp4=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': None, 'min_samples_split': 3, 'n_estimators': 80},random_state=46).fit(X_mrp4,y_mrp4)
-            
-            # model_oat1=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 5, 'n_estimators': 16},random_state=46).fit(X_oat1,y_oat1)
-            
-            # model_oat2=SVR(**{'C': 1, 'gamma': 0.0001, 'kernel': 'rbf'}).fit(X_oat2,y_oat2)
-            
-            # model_bsep=XGBRegressor(**{'colsample_bytree': 1, 'max_depth': 2, 'min_child_weight': 2, 'n_estimators': 16}).fit(X_bsep,y_bsep)
-            
-            # model_pgp=RandomForestRegressor(**{'criterion': 'squared_error', 'max_depth': 2, 'min_samples_split': 2, 'n_estimators': 16},random_state=46).fit(X_pgp,y_pgp)
-
 
             if 'df_result' in st.session_state:
                 df_result = st.session_state['df_result']
@@ -1290,10 +1142,8 @@ elif selected == 'Prediction':
                 df_nuevo_def3['DTXSID_fake']=[f'DTXSID-{i}' for i in range(1)]
                 df_nuevo_def3['fake_name']=[f'A-{i}' for i in range(1)]
 
-                # Convertir el DataFrame de pandas a DataFrame de R
                 df_r = py2rpy_pandasdataframe(df_nuevo_def3)
 
-                # Pasar el DataFrame de R a R
                 ro.globalenv['df_r'] = df_r
 
                 with localconverter(default_converter) as cv:
@@ -1496,22 +1346,22 @@ elif selected == 'Prediction':
                 st.markdown('## <span style="color:#696969">Prediction</span>', unsafe_allow_html=True)
                 # Verificar si preds coincide con comb.Activity
                 if (preds == comb.Activity).all() and preds.all() == 1:
-                    # Asignar color verde al mensaje
+                    # Assign green color
                     style_icon = "font-weight: bold; font-size: larger; color: green; display: inline-block; margin-right: 10px;"
                     style_text = "font-weight: bold; font-size: 20px; color: green; display: inline-block;"
                     st.markdown(f'<p style="{style_icon}">✅</p><p style="{style_text}">Cholestatic</p>', unsafe_allow_html=True)
                 elif (preds == comb.Activity).all() and preds.all() == 0:
-                    # Asignar color verde al mensaje
+                    # Assign green color
                     style_icon = "font-weight: bold; font-size: larger; color: green; display: inline-block; margin-right: 10px;"
                     style_text = "font-weight: bold; font-size: 20px; color: green; display: inline-block;"
                     st.markdown(f'<p style="{style_icon}">✅</p><p style="{style_text}">Non Cholestatic</p>', unsafe_allow_html=True)
                 elif (preds != comb.Activity).all() and preds.all() == 1:
-                    # Asignar color verde al mensaje
+
                     style_icon = "font-weight: bold; font-size: larger; color: red; display: inline-block; margin-right: 10px;"
                     style_text = "font-weight: bold; font-size: 20px; color: red; display: inline-block;"
                     st.markdown(f'<p style="{style_icon}">❌</p><p style="{style_text}">Cholestatic</p>', unsafe_allow_html=True)
                 else:
-                    # Asignar color rojo al mensaje
+
                     style_icon = "font-weight: bold; font-size: larger; color: red; display: inline-block; margin-right: 10px;"
                     style_text = "font-weight: bold; font-size: 20px; color: red; display: inline-block;"
                     st.markdown(f'<p style="{style_icon}">❌</p><p style="{style_text}">Non Cholestatic</p>', unsafe_allow_html=True)
@@ -1756,34 +1606,6 @@ elif selected == 'Prediction':
                             setattr(self, parameter, value)
                         return self
                 
-                # if on_met:
-                #     model=LogicalOrEstimatorpk(k=1,transporters=['MRP3'],logical_rule=['OR']).fit(training_series,training_series.Activity)
-                    
-                #     # Define the list of transporters without 'Select All'
-                #     transporters = ['BCRP', 'MRP2', 'MRP3', 'MRP4', 'BSEP', 'OATP1B1', 'OATP1B3', 'PGP']
-
-                #     # Generate all possible combinations of transporters
-                #     all_transporter_combinations = [list(combo) for r in range(1, len(transporters) + 1) for combo in combinations(transporters, r)]
-
-                #     # Append 'Select All' at the end
-                #     all_transporter_combinations.append(['Select All'])
-
-                #     gs=GridSearchCV(model, param_grid={'k':np.linspace(0.001,1000,100),'transporters':all_transporter_combinations,'logical_rule':['OR','AND','Majority']},
-                #                             verbose=1, scoring=make_scorer(roc_auc_score), refit=True,
-                #                             return_train_score=True,cv=StratifiedKFold(5))
-                #     gs.fit(training_series,training_series.Activity)
-
-                #     st.markdown('### <span style="color:#696969">Best hyperparameters</span>', unsafe_allow_html=True)
-
-                #     for parameter, value in gs.best_params_.items():
-                #         st.markdown(f"<p style='font-size: 20px; color: #696969;'>- <strong>{parameter}:</strong> {value}</p>", unsafe_allow_html=True)
-
-
-                #     model2 = gs.best_estimator_
-                    
-                #     train_preds = model2.predict(training_series)
-                #     preds = model2.predict(comb)
-                
                 train_preds = LogicalOrEstimatorpk(k=k_met,transporters=selected_options[0],logical_rule=logical).fit(training_series,training_series.Activity).predict(training_series)
                 
                 preds = LogicalOrEstimatorpk(k=k_met,transporters=selected_options[0],logical_rule=logical).fit(comb,comb.Activity).predict(comb)
@@ -1791,12 +1613,10 @@ elif selected == 'Prediction':
                 
                 # report(comb.Activity, preds)
 
-                # Etiquetas de las métricas y los conjuntos
                 metrics = ['Accuracy', 'Sensitivity', 'Specificity', 'MCC','ROC-AUC']
                 labels = ['Train', 'Test']
                 x = np.arange(len(metrics))
 
-                # Valores de las métricas para train y test
                 st.markdown(f'<div style="text-align: justify; fontSize: 23px; color: #696969;"><strong>Training and test series metrics</strong> </div>', unsafe_allow_html=True)
                 sens_train=sensitivity(training_series.Activity,train_preds)
                 spe_train=especificity(training_series.Activity,train_preds)
@@ -1813,27 +1633,27 @@ elif selected == 'Prediction':
                 train_values = [acc_train, sens_train, spe_train, mcc_train, roc_train]
                 test_values = [acc_test, sens_test, spe_test, mcc_test, roc_test]
 
-                # Ancho de las barras
+
                 bar_width = 0.35
 
-                # Crear el gráfico de barras
+
                 fig, ax = plt.subplots(figsize=(10, 6))
                 train_bars = ax.bar(x - bar_width/2, train_values, bar_width, label='Train')
                 test_bars = ax.bar(x + bar_width/2, test_values, bar_width, label='Test')
 
-                # Añadir etiquetas, título y leyenda
-                # ax.set_xlabel('Metrics')
+
+
                 ax.set_ylabel('Score')
                 ax.set_xticks(x)
                 ax.set_xticklabels(metrics)
                 ax.legend()
 
-                # Añadir valores en las barras
+
                         
                 autolabel(train_bars)
                 autolabel(test_bars)
 
-                # Mostrar el gráfico
+
                 st.pyplot(fig)
                 
                 comb['Predictions']=preds
@@ -1871,19 +1691,7 @@ elif selected== 'Contact':
     st.markdown("<h1 style='text-align: left; fontSize: 30px; font-style: bold; color: #696969;'>Contact information</h1>", unsafe_allow_html=True)
     st.write('')
     st.markdown('[<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail Icon" width="30">](mailto:parodbe@gmail.com)', unsafe_allow_html=True)
-    # st.markdown('<div style="text-align: justify; fontSize: 18px; color: #696969;">Contact support: parodbe@gmail.com.</div>', unsafe_allow_html=True)
     st.write('')
     st.markdown('[<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn Icon" width="30">](https://www.linkedin.com/in/pablorodriguezbelenguer)', unsafe_allow_html=True)
     st.write('')
     st.markdown('[<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Icon" width="30">](https://github.com/parodbe)', unsafe_allow_html=True)
-    # st.markdown('<i class="fab fa-linkedin"></i>  www.linkedin.com/in/natalia-czub', unsafe_allow_html=True)
-    # st.markdown('<div style="text-align: justify; fontSize: 18px; color: #696969;">Social media: www.linkedin.com/in/pablorodriguezbelenguer.</div>', unsafe_allow_html=True)
-
-    # if st.session_state["Build Metamodel"] and 'df_uploaded' in st.session_state:
-    #     st.download_button(
-    #         label="Download data as CSV",
-    #         data=comb.iloc[:,:-1].to_csv().encode('utf-8'),
-    #         file_name='data.csv',
-    #         mime='text/csv',
-    #     )
-    
