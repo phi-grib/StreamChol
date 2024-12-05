@@ -15,7 +15,7 @@ Components for building the application:
 
 •	The pickle files for the individual models
 
-•	requirements.txt
+•	Requirements.txt
 
 •	Dockerfile
 
