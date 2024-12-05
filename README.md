@@ -7,6 +7,24 @@ This is a web application for predicting drug-like compounds that may induce cho
   <img src="https://github.com/phi-grib/StreamChol/blob/main/cover%20page.PNG" alt="Cover Page">
 </p>
 
+# Files explanation
+
+Components for building the application:
+
+•	The application itself (streamchol.py)
+
+•	The pickle files for the individual models
+
+•	requirements.txt
+
+•	Dockerfile
+
+Additional files for testing:
+
+•	Training series (final_predictions_app.csv)
+
+•	A test set (test.xlsx)
+
 
 # StreamChol in Docker hub
 A docker container (https://www.docker.com/), fully configured can be downloaded from DockerHub and installed using:
