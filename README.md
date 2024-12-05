@@ -11,19 +11,19 @@ This is a web application for predicting drug-like compounds that may induce cho
 
 Components for building the application:
 
-•	The application itself (streamchol.py)
+-	The application itself (streamchol.py)
 
-•	The pickle files for the individual models
+-	The pickle files for the individual models
 
-•	Requirements.txt
+-	Requirements.txt
 
-•	Dockerfile
+-	Dockerfile
 
 Additional files for testing:
 
-•	Training series (final_predictions_app.csv)
+-	Training series (final_predictions_app.csv)
 
-•	A test set (test.xlsx)
+-	A test set (test.xlsx)
 
 
 # StreamChol in Docker hub
