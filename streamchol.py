@@ -1,3 +1,16 @@
+# Copyright 2024 Pablo Rodríguez Belenguer  
+#  
+# This file is part of StreamChol  
+#  
+# StreamChol is free software: you can redistribute it and/or modify  
+# it under the terms of the GPL v3  
+#  
+# The homepage design of StreamChol was inspired by SerotoninAI (Łapińska et al., 2023).  
+# Specifically, the code from lines 72 to 120. We acknowledge its influence in guiding  
+# our initial interface layout, while all functionalities, objectives, and workflows  
+# of StreamChol were developed separately.  
+
+
 from turtle import onclick
 import streamlit as st
 import base64
