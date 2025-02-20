@@ -165,3 +165,10 @@ If your app uses Python, install the required libraries:
    http://localhost:8501
    ```
 
+
+---
+
+<sub><sup>
+**Note:** The homepage design of StreamChol was inspired by SerotoninAI (Łapińska et al., 2023). Specifically, the code from lines 72 to 120. We acknowledge its influence in guiding our initial interface layout, while all functionalities, objectives, and workflows of StreamChol were developed separately.
+</sup></sub>
+
