@@ -1,4 +1,4 @@
-# Copyright 2024 Pablo Rodríguez Belenguer  
+# Copyright 2025 Pablo Rodríguez Belenguer  
 #  
 # This file is part of StreamChol  
 #  
@@ -109,7 +109,7 @@ footer_style = """
     font-size: 16px;
 """
 st.markdown(
-    f'<div style="{footer_style}">Copyright (C) 2024 Pablo Rodríguez Belenguer</div>',
+    f'<div style="{footer_style}">Copyright (C) 2025 Pablo Rodríguez Belenguer</div>',
     unsafe_allow_html=True
 )
 
